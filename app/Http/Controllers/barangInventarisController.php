@@ -34,7 +34,8 @@ class barangInventarisController extends Controller
         ]);
     }
 
-    public function addbarang(Request $request){
+    public function addbarang(Request $request)
+    {
         $request->validate([
             'jns_brg_kode' => 'required',
             'br_nama' => 'required',
@@ -45,10 +46,9 @@ class barangInventarisController extends Controller
         if ($kodeTerakhir == 0) {
             $nomber = 'inv' . date('Y') . '1';
         } else {
-            $nomber = 'inv' . date('Y') . sprintf('%04d', $kodeTerakhir + 1);
+            $nomber = substr($kodeTerakhir, 0, 5) . (substr($kodeTerakhir, 4) + 1);
         }
 
-        // dd($nomber);
 
         tm_barang_inventaris::create([
             'br_kode' => $nomber,
@@ -63,4 +63,3 @@ class barangInventarisController extends Controller
         return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
     }
 }
-

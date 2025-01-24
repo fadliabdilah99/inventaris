@@ -9,10 +9,11 @@ class tm_peminjaman extends Model
 {
     use HasFactory;
 
-    protected $table = 'tm_peminjaman';
+    protected $table = 'tm_peminjamans';
     protected $primaryKey = 'pb_id';
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $guarded = [];
 
     public function user()
     {

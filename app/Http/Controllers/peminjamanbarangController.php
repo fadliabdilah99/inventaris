@@ -25,7 +25,7 @@ class peminjamanbarangController extends Controller
             'pb_harus_kembali_tgl' => 'required',
         ]);
         // dd($request->all());
-        $dataterakhir = tm_peminjaman::first();
+        $dataterakhir = tm_peminjaman::orderBy('created_at', 'desc')->first();
         if ($dataterakhir == null) {
             $pbid = 'PJ' . date('Ym') . 001;
         } else {
@@ -34,7 +34,7 @@ class peminjamanbarangController extends Controller
 
 
 
-        tm_peminjaman::create([
+        $id = tm_peminjaman::create([
             'pb_id' => $pbid,
             'user_id' => Auth::user()->user_id,
             'pb_tgl' => date('Y-m-d'),
@@ -44,12 +44,14 @@ class peminjamanbarangController extends Controller
             'pb_stat' => null,
         ]);
 
-        return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
+        return redirect('peminjaman/pinjam/list/' . $id->pb_id)->with('success', 'Data Berhasil Ditambahkan');
     }
 
     public function list($id)
     {
-        $inventaris = tm_barang_inventaris::all();
+        $inventaris = tm_barang_inventaris::whereHas('peminjamanBarang', function ($q) {
+            $q->where('pdb_sts', '!=', 1);
+        })->get();
         return view('peminjamanBarang.list', compact('id', 'inventaris'));
     }
 

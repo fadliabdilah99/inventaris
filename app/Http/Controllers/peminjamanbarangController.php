@@ -41,7 +41,7 @@ class peminjamanbarangController extends Controller
             'pb_no_siswa' => $request->pb_no_siswa,
             'pb_nama_siswa' => $request->pb_nama_siswa,
             'pb_harus_kembali_tgl' => $request->pb_harus_kembali_tgl,
-            'pb_stat' => 1,
+            'pb_stat' => null,
         ]);
 
         return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');

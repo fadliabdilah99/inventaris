@@ -48,7 +48,12 @@
                                             <td>{{ $peminjamans->pb_no_siswa . '-' . $peminjamans->pb_nama_siswa }}</td>
                                             <td>{{ $peminjamans->pb_harus_kembali_tgl }}</td>
                                             <td>{{ $peminjamans->peminjamanBarang->count() }}</td>
-                                            <td><a href="{{ route('pinjam-barang-list', $peminjamans->pb_id) }}" class="btn btn-primary"><i class="fas fa-edit"></button></td>
+                                            @if ($peminjamans->pb_stat == null)
+                                                <td><a href="{{ route('pinjam-barang-list', $peminjamans->pb_id) }}"
+                                                        class="btn btn-primary"><i class="fas fa-edit"></button></td>
+                                            @else
+                                                <td class="text-success">Sedang Dipinjam</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -71,7 +76,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                        <h4>Dipinjam</h4>
+                            <h4>Dipinjam</h4>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -89,7 +94,8 @@
                                         <tr>
                                             <td>{{ $dipinjam->pbd_id }}</td>
                                             <td>{{ $dipinjam->peminjaman->user->user_nama }}</td>
-                                            <td>{{ $dipinjam->peminjaman->pb_no_siswa . '-' . $dipinjam->peminjaman->pb_nama_siswa }}</td>
+                                            <td>{{ $dipinjam->peminjaman->pb_no_siswa . '-' . $dipinjam->peminjaman->pb_nama_siswa }}
+                                            </td>
                                             <td>{{ $dipinjam->peminjaman->pb_harus_kembali_tgl }}</td>
                                         </tr>
                                     @endforeach

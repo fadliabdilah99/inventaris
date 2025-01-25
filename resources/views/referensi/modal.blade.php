@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-pinjam">
+<div class="modal fade" id="modal-kategori">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,23 +10,13 @@
             <div class="modal-body">
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('pinjam-barang') }}" method="POST">
+                <form action="{{ route('kategori') }}" method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputusername1">NIS</label>
-                            <input name="pb_no_siswa" type="number" class="form-control" id="exampleInputusername1"
-                                placeholder="0000">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputusername1">Nama</label>
-                            <input name="pb_nama_siswa" type="text" class="form-control" id="exampleInputusername1"
-                                placeholder="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputusername1">Tenggat</label>
-                            <input name="pb_harus_kembali_tgl" type="date" class="form-control"
-                                id="exampleInputusername1" min="{{ date('Y-m-d') }}" placeholder="Kategori">
+                            <label for="exampleInputusername1">Kategori</label>
+                            <input name="jns_brg_nama" type="text" class="form-control" id="exampleInputusername1"
+                                placeholder="Kategori">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -40,4 +30,3 @@
         <!-- /.modal-dialog -->
     </div>
 </div>
-

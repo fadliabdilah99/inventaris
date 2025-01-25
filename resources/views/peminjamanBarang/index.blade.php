@@ -50,9 +50,22 @@
                                             <td>{{ $peminjamans->peminjamanBarang->count() }}</td>
                                             @if ($peminjamans->pb_stat == null)
                                                 <td><a href="{{ route('pinjam-barang-list', $peminjamans->pb_id) }}"
-                                                        class="btn btn-primary"><i class="fas fa-edit"></button></td>
+                                                        class="btn btn-primary">Pilih Barang</td>
+                                            @elseif($peminjamans->pengembalian != null)
+                                                <td class="text-danger">Sudah Kembali</td>
+
                                             @else
-                                                <td class="text-success">Sedang Dipinjam</td>
+                                                <td class="text-success">
+                                                    <form id="fomr-kembali{{ $peminjamans->pb_id }}"
+                                                        action="{{ route('kembali') }}" method="POST">
+                                                        @csrf
+                                                        <input type="text" name="pb_id"
+                                                            value="{{ $peminjamans->pb_id }}" hidden>
+                                                        <button class="btn btn-success" type="button"
+                                                            onclick="confirmKembali('{{ $peminjamans->pb_id }}')">Sedang
+                                                            Dipinjam</button>
+                                                    </form>
+                                                </td>
                                             @endif
                                         </tr>
                                     @endforeach
@@ -171,5 +184,23 @@
                 "responsive": true,
             });
         });
+    </script>
+
+    <script>
+        function confirmKembali(id) {
+            Swal.fire({
+                title: 'Konfirmasi PEngembalian?',
+                text: "Pastikan Barang Lengkap!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Konfirmasi!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('fomr-kembali' + id).submit();
+                }
+            })
+        }
     </script>
 @endpush

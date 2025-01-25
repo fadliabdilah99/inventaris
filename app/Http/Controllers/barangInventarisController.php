@@ -62,4 +62,20 @@ class barangInventarisController extends Controller
 
         return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
     }
+
+    public function update(Request $request){
+        $request->validate([
+            'br_kode' => 'required',
+            'br_nama' => 'required',
+            'jns_brg_kode' => 'required'
+        ]);
+        tm_barang_inventaris::where('br_kode', $request->br_kode)->update([
+            'br_nama' => $request->br_nama,
+            'jns_brg_kode' => $request->jns_brg_kode,
+            'user_id' => Auth::user()->user_id,
+            'br_status' => $request->br_status
+        ]);
+
+        return redirect()->back()->with('success', 'Data Berhasil Diubah');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('template.main')
 
-@section('title', 'Home')
+@section('title', 'Laporan')
 
 @push('style')
     <!-- DataTables -->
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 @endpush
 
-@section('Judul', 'Inventaris')
+@section('Judul', 'Referensi')
 
 
 @section('content')
@@ -21,41 +21,24 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-produk">
-                                Tambah Barang
-                            </button>
+                            <h4>User</h4>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Kategori</th>
-                                        <th>Produk</th>
-                                        <th>Tanggal terima</th>
-                                        <th>Kondisi Barang</th>
-                                        <th>Action</th>
+                                        <th>User ID</th>
+                                        <th>Nama</th>
+                                        <th>Role</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($barang as $barangs)
+                                    @foreach ($user as $users)
                                         <tr>
-                                            <td>{{ $barangs->br_nama }}</td>
-                                            <td>{{ $barangs->jenisBarang->jns_brg_nama }}</td>
-                                            <td>{{ $barangs->br_tgl_terima }}</td>
-                                            <td>
-                                                @if ($barangs->br_status == 1)
-                                                    <span class="badge badge-success">barang kondisi baik</span>
-                                                @elseif($barangs->br_status == 2)
-                                                    <span class="badge badge-danger">barang kondisi rusak, bisa
-                                                        diperbaiki</span>
-                                                @else
-                                                    <span class="badge badge-danger">barang rusak , tidak bisa digunakan
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td><button onclick="update('{{$barangs->br_kode}}', '{{$barangs->br_nama}}')" type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#modal-update"><i class="fas fa-edit"></i></button></td>
+                                            <td>{{ $users->user_id }}</td>
+                                            <td>{{ $users->user_nama }}</td>
+                                            <td>{{ $users->user_hak }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -72,6 +55,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -121,7 +105,8 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    @include('barangInventaris.modal')
+
+    @include('referensi.modal')
 @endsection
 @push('script')
     <!-- DataTables  & Plugins -->
@@ -160,10 +145,5 @@
                 "responsive": true,
             });
         });
-
-        function update(kode, nama) {
-            document.getElementById('br_kode').value = kode;
-            document.getElementById('br_nama').value = nama;
-        }
     </script>
 @endpush

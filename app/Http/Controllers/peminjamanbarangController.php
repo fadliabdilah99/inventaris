@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\td_peminjaman_barang;
 use App\Models\tm_barang_inventaris;
 use App\Models\tm_peminjaman;
+use App\Models\tm_pengembalian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,8 +13,9 @@ class peminjamanbarangController extends Controller
 {
     public function index()
     {
-        $data['peminjaman'] = tm_peminjaman::all();
+        $data['peminjaman'] = tm_peminjaman::with('pengembalian')->get();
         $data['belumKembali'] = td_peminjaman_barang::where('pdb_sts', 1)->get();
+
         return view('peminjamanBarang.index', $data);
     }
 
@@ -78,5 +80,35 @@ class peminjamanbarangController extends Controller
         }
 
         return redirect()->route('peminjaman')->with('success', 'Data Berhasil Ditambahkan');
+    }
+
+    public function kembali(Request $request)
+    {
+        $peminjaman = tm_peminjaman::where('pb_id', $request->pb_id)->with(['peminjamanBarang', 'pengembalian'])->first();
+
+        $dataterakhir = tm_pengembalian::orderBy('created_at', 'desc')->first();
+        if ($dataterakhir == null) {
+            $kembali_id = 'KB' . date('Ym') . 001;
+        } else {
+            $kembali_id = 'KB' . (substr($dataterakhir->pb_id, 2) + 1);
+        }
+
+        foreach ($peminjaman->peminjamanBarang as $peminjamanBarang) {
+            $peminjamanBarang->pdb_sts = 0;
+            $peminjamanBarang->save();
+        }
+        
+
+
+        tm_pengembalian::create([
+            'kembali_id' => $kembali_id,
+            'pb_id' => $request->pb_id,
+            'user_id' => Auth::user()->user_id,
+            'kembali_tgl' => date('Y-m-d'),
+            'kembali_sts' => 1,
+        ]);
+
+
+        return redirect()->back()->with('success', 'Berhasil mengembalikan barang');
     }
 }

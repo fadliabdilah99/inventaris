@@ -106,6 +106,27 @@
     <script src="dist/js/pages/dashboard2.js"></script>
     @stack('script')
 
+
+    @if ($message = Session::get('success'))
+        <script>
+            Swal.fire({
+                title: "Berhasil!",
+                text: "{{ $message }}",
+                icon: "success"
+            });
+        </script>
+    @endif
+
+    @if ($message = Session::get($errors->any()))
+        <script>
+            Swal.fire({
+                title: "Errors!",
+                text: "{{ $message }}",
+                icon: "error"
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>

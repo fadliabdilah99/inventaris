@@ -61,7 +61,7 @@ class peminjamanbarangController extends Controller
     {
         // dd($request->all());
 
-        $dataterakhir = td_peminjaman_barang::first();
+        $dataterakhir = td_peminjaman_barang::orderBy('created_at', 'desc')->first();
         if ($dataterakhir == null) {
             $pbid = $request->pb_id . 001;
         } else {
@@ -78,6 +78,8 @@ class peminjamanbarangController extends Controller
             ]);
             $pbid++;
         }
+
+        tm_peminjaman::where('pb_id', $request->pb_id)->update(['pb_stat' => 1]);
 
         return redirect()->route('peminjaman')->with('success', 'Data Berhasil Ditambahkan');
     }

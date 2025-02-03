@@ -52,21 +52,24 @@ class peminjamanbarangController extends Controller
     public function list($id)
     {
         $inventaris = tm_barang_inventaris::whereHas('peminjamanBarang', function ($q) {
-            $q->where('pdb_sts', '!=', 1);
-        })->get();
+            $q->where('pdb_sts', '!=', '1');
+        })
+        ->orWhereDoesntHave('peminjamanBarang')
+        ->get();
         return view('peminjamanBarang.list', compact('id', 'inventaris'));
     }
 
     public function add(Request $request)
     {
-        // dd($request->all());
-
+        
         $dataterakhir = td_peminjaman_barang::orderBy('created_at', 'desc')->first();
         if ($dataterakhir == null) {
             $pbid = $request->pb_id . 001;
         } else {
             $pbid = (substr($dataterakhir->pb_id, 2) + 1);
+            // dd(substr($dataterakhir->pb_id, 2));
         }
+        // dd($dataterakhir);
 
         foreach ($request->id as $id) {
             td_peminjaman_barang::create([

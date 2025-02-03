@@ -42,7 +42,7 @@ class barangInventarisController extends Controller
             'br_tgl_terima' => 'required'
         ]);
 
-        $kodeTerakhir = tm_barang_inventaris::orderBy('br_kode', 'desc')->first()->br_kode ?? 0;
+        $kodeTerakhir = tm_barang_inventaris::whereYear('br_tgl_entry', date('Y'))->orderBy('br_kode', 'desc')->first()->br_kode ?? 0;
         if ($kodeTerakhir == 0) {
             $nomber = 'inv' . date('Y') . '1';
         } else {

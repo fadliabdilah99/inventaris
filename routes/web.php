@@ -5,10 +5,14 @@ use App\Http\Controllers\barangInventarisController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\laporanController;
 use App\Http\Controllers\peminjamanbarangController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check()){
+        return redirect('dashboard');
+    }
+    return redirect('login');
 });
 
 Route::get('login', [AuhtController::class, 'index'])->name('login');
